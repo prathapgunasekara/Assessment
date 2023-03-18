@@ -1,7 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CounterComponent } from './counter/counter.component';
 import { GamesComponent } from './games/games.component';
@@ -29,14 +28,21 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { GamesCreateEditDialogComponent } from './shared/games-create-edit-dialog/games-create-edit-dialog.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
     DashboardComponent,
     CounterComponent,
     GamesComponent,
+    GamesCreateEditDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -56,6 +62,16 @@ import { RouterModule } from '@angular/router';
     MatDatepickerModule,
     MatRippleModule,
     MatNativeDateModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    MatSnackBarModule,
     RouterModule.forRoot([
       { path: '', component: DashboardComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },

@@ -26,7 +26,7 @@ namespace YOLO.Controllers
         //...
 
         [HttpPost]
-        public IActionResult Add(YoloGame game)
+        public IActionResult Add([FromBody] YoloGame game)
         {
             //Determine the next ID
             var newID = Guid.NewGuid();
@@ -34,25 +34,31 @@ namespace YOLO.Controllers
 
             _context.YoloGame.Add(game);
             _context.SaveChanges();
-            return Ok(game);
+        
+            var games = _context.YoloGame.ToList();
+            return Ok(games);
         }
 
-        //...
 
         [HttpPut]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(YoloGame game )
+        {
+            _context.YoloGame.Update(game);
+            _context.SaveChanges();
+            var games = _context.YoloGame.ToList();
+            return Ok(games);
+         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(Guid id)
         {
             var game = _context.YoloGame.Find(id);
-            return View(game);
+
+            _context.YoloGame.Remove(game);
+            _context.SaveChanges();
+
+            var games = _context.YoloGame.ToList();
+            return Ok(games);
         }
-
-        //[HttpPost]
-        //public IActionResult Edit(YoloGame game)
-        //{
-        //    _context.YoloGame.Update(game);
-        //    _context.SaveChanges();
-
-        //    return RedirectToAction("Index");
-        //}
     }
 }

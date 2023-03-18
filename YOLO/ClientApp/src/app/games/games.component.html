@@ -1,72 +1,96 @@
+<div class="custom-overlay" *ngIf="isLoading">
+  <mat-spinner id="spinner-main-calendar-mobile" class="settings-spinner" [diameter]="50"></mat-spinner>
+</div>
+
+<div class="action-header">
+
   <div>
-
     <form class="filters-bar">
-    <div>
-      <mat-form-field appearance="fill">
+      <div>
+        <mat-form-field appearance="fill">
 
-    <input #textFieldFilter matInput (keyup)="applyFilterToNameCategoryDescription($event)" placeholder="Ex. ium" #input>
- 
-    </mat-form-field>
-    </div>
-    
-    <div id="dateRangeDivision">
-       <mat-form-field appearance="fill">
-    <mat-label id="dateRange" for="dateRange">Enter a date range</mat-label>
-    <mat-date-range-input [rangePicker]="picker1">
-      <input matStartDate placeholder="Start date" #dateRangeStart (dateChange)="resetDataSource()">
-      <input matEndDate placeholder="End date"       #dateRangeEnd
-      (dateChange)="dateRangeChange(dateRangeStart, dateRangeEnd)">  >
-    </mat-date-range-input>
-     <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker1></mat-date-range-picker>
-  </mat-form-field>
-    </div>
-   
+          <input #textFieldFilter matInput (keyup)="applyFilterToNameCategoryDescription($event)"
+            placeholder="Filter by Name, Category, Description" #input>
 
-   <button mat-button (click)="resetDataSource()">
-    Reset Filters
-   </button>
-  </form>
-    
+        </mat-form-field>
+      </div>
+
+      <div id="dateRangeDivision">
+        <mat-form-field appearance="fill">
+          <mat-label id="dateRange" for="dateRange">Filter by creation date</mat-label>
+          <mat-date-range-input [rangePicker]="picker1">
+            <input matStartDate placeholder="Start date" #dateRangeStart (dateChange)="resetDataSource()">
+            <input matEndDate placeholder="End date" #dateRangeEnd
+              (dateChange)="dateRangeChange(dateRangeStart, dateRangeEnd)"> >
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker1></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+
+
+      <button mat-button id="clear-filter" (click)="resetDataSource()">
+        Reset Filters
+      </button>
+    </form>
   </div>
-    
- 
-<table mat-table [dataSource]="filteredData" class="mat-elevation-z8">
 
-  
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-  </ng-container>
+  <div>
+    <button mat-button id="add-new" (click)="addNewGame()">
+      <mat-icon [ngStyle]="{'color':'#4ed64e'}">add</mat-icon> Add New
+    </button>
+  </div>
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="description">
-    <th mat-header-cell *matHeaderCellDef> Description </th>
-    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
-  </ng-container>
 
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="category">
-    <th mat-header-cell *matHeaderCellDef> Category </th>
-    <td mat-cell *matCellDef="let element"> {{element.category}} </td>
-  </ng-container>
+</div>
 
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="creationDate">
-    <th mat-header-cell *matHeaderCellDef> Creation Date </th>
-    <td mat-cell *matCellDef="let element"> {{element.creationDate | date: 'MMM d, y HH:mm'}} </td>
-  </ng-container>
+<div>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
- 
+  <table mat-table [dataSource]="filteredData" class="mat-elevation-z8 games-table">
 
-  <!-- Row shown when there is no matching data. -->
-  <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
 
-  </tr>
-</table>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
 
- 
+    <!-- Weight Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef> Category </th>
+      <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="creationDate">
+      <th mat-header-cell *matHeaderCellDef> Creation Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.creationDate | date: 'MMM d, y'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button (click)="editGameDialogOpen(element)"> <mat-icon
+            [ngStyle]="{'color':'orange'}">edit</mat-icon>
+        </button>
+        <button mat-button (click)="deleteGame(element.id)"><mat-icon [ngStyle]="{'color':'red'}">delete</mat-icon>
+        </button>
+
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+</div>

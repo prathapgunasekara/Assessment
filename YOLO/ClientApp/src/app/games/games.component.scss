@@ -3,6 +3,27 @@ body {
   line-height: 1.25;
 }
 
+.mat-header-cell {
+  font-weight: 600 !important;
+}
+
+.mdc-data-table__header-cell {
+  font-weight: 600 !important;
+}
+
+.action-header {
+  display: flex;
+  justify-content: space-between;
+
+  #clear-filter {
+    margin-top: 12px;
+    margin-left: 12px;
+  }
+
+  #add-new {
+    margin-top: 12px;
+  }
+}
 @media screen and (max-width: 960px) {
   .mat-table {
     border: 0;

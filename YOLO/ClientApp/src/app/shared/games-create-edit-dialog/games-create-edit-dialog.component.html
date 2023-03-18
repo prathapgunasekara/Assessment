@@ -1,0 +1,44 @@
+<div class="form-container">
+    <h2 mat-dialog-title>{{data.isEdit?'Edit Game' : 'Add new Game'}}</h2>
+    <mat-dialog-content>
+        <form [formGroup]="form">
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Enter name" formControlName="name" />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Description</mat-label>
+                <textarea matInput placeholder="description" formControlName="description"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" hintLabel="Category required">
+                <mat-label>Category</mat-label>
+                <mat-select matNativeControl name="country" formControlName="category">
+                    <mat-option value="War">War</mat-option>
+                    <mat-option value="Sport">Sport</mat-option>
+                    <mat-option value="Arcade">Arcade</mat-option>
+                    <mat-option value="Action">Action</mat-option>
+                    <mat-option value="Adventure">Adventure</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Created a date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="creationDate">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-raised-button (click)="dialogRef.close(false)" color="primary">
+            Close
+        </button>
+        <button mat-raised-button color="primary" (click)="submit(form.value)">
+            Submit
+        </button>
+    </mat-dialog-actions>
+</div>

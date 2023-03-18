@@ -21,7 +21,7 @@ namespace YOLO
                         Id = Guid.NewGuid(),
                         Name = "Candy Land",
                         Description = "Candy Land version 1",
-                        Category = "Puzzle",
+                        Category = "Arcade",
                         CreationDate = new DateTime(2015, 06, 04, 04 ,13,34)
                     },    
 
@@ -46,7 +46,7 @@ namespace YOLO
                         Id = Guid.NewGuid(),
                         Name = "Buzan",
                         Description = "Days of Buzan version 1",
-                        Category = "Horror",
+                        Category = "Action",
                         CreationDate = new DateTime(2023, 12, 02)
                     }
 

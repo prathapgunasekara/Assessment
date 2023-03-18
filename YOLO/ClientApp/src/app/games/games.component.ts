@@ -1,9 +1,11 @@
 import {
+  AfterViewInit,
   Component,
   Inject,
   OnDestroy,
   OnInit,
   QueryList,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -18,6 +20,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { GamesService } from '../services/games.service';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
+import { MatDialog } from '@angular/material/dialog';
+import { GamesCreateEditDialogComponent } from '../shared/games-create-edit-dialog/games-create-edit-dialog.component';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-games',
@@ -25,19 +32,26 @@ import * as moment from 'moment';
   styleUrls: ['./games.component.scss'],
 })
 export class GamesComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = [
+  public isLoading = false;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  public displayedColumns: string[] = [
     'name',
     'description',
     'category',
     'creationDate',
+    'actions',
   ];
-  filteredData = new MatTableDataSource<Game>();
-  gamesList: Game[];
+  public filteredData = new MatTableDataSource<Game>();
+  public gamesList: Game[];
   private localSubscription = new Subscription();
-  /**
-   *
-   */
-  constructor(private gameService: GamesService) {}
+
+  constructor(
+    private gameService: GamesService,
+    private dialog: MatDialog,
+    private notificationService: NotificationService
+  ) {}
   ngOnDestroy(): void {
     this.localSubscription.unsubscribe();
   }
@@ -56,14 +70,22 @@ export class GamesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.filteredData.paginator = this.paginator;
+
     this.localSubscription.add(
-      this.gameService.getGames().subscribe((results) => {
-        this.gamesList = results;
-        this.filteredData = new MatTableDataSource(results);
+      this.gameService.getGames().subscribe((results: Game[]) => {
+        this.drawDataTable(results);
       })
     );
   }
 
+  drawDataTable(results: Game[]) {
+    this.gamesList = results;
+    this.filteredData = new MatTableDataSource(results);
+    this.filteredData.paginator = this.paginator;
+    this.filteredData.sort = this.sort;
+    this.isLoading = false;
+  }
   dateRangeChange(
     dateRangeStart: HTMLInputElement,
     dateRangeEnd: HTMLInputElement
@@ -84,5 +106,55 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   resetDataSource() {
     this.filteredData.data = this.gamesList;
+  }
+
+  editGameDialogOpen(editableGame: Game) {
+    const dialogRef = this.dialog.open(GamesCreateEditDialogComponent, {
+      width: '450px',
+      height: '500px',
+      data: { isEdit: true, selectedGame: editableGame },
+    });
+
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data.clicked === 'submit') {
+        this.isLoading = true;
+        this.localSubscription.add(
+          this.gameService.editGames(data.form).subscribe((results) => {
+            this.notificationService.success('Game edited successfully');
+
+            this.drawDataTable(results);
+          })
+        );
+      }
+    });
+  }
+
+  deleteGame(id: string) {
+    this.isLoading = true;
+    this.gameService.deleteGames(id).subscribe((results) => {
+      this.notificationService.success('Game deleted successfully');
+
+      this.drawDataTable(results);
+    });
+  }
+
+  addNewGame() {
+    const dialogRef = this.dialog.open(GamesCreateEditDialogComponent, {
+      width: '450px',
+      height: '500px',
+      data: { isEdit: false, selectedGame: null },
+    });
+
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data.clicked === 'submit') {
+        this.isLoading = true;
+        this.localSubscription.add(
+          this.gameService.addGames(data.form).subscribe((results) => {
+            this.notificationService.success('Game added successfully');
+            this.drawDataTable(results);
+          })
+        );
+      }
+    });
   }
 }
