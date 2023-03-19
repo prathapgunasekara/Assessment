@@ -2,7 +2,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CounterComponent } from './counter/counter.component';
 import { GamesComponent } from './games/games.component';
 import {
   MatTable,
@@ -35,14 +34,17 @@ import { GamesCreateEditDialogComponent } from './shared/games-create-edit-dialo
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CustomersComponent } from './customers/customers.component';
+import { CustomersCreateEditDialogComponent } from './shared/customers-create-edit-dialog/customers-create-edit-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    CounterComponent,
     GamesComponent,
     GamesCreateEditDialogComponent,
+    CustomersComponent,
+    CustomersCreateEditDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -74,8 +76,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSnackBarModule,
     RouterModule.forRoot([
       { path: '', component: DashboardComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: GamesComponent },
     ]),
   ],
   providers: [],

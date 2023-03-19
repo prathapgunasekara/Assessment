@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Game } from 'src/app/games/games.component';
+import { Game } from 'src/app/models/game.model';
 
 @Component({
   selector: 'app-games-create-edit-dialog',
   templateUrl: './games-create-edit-dialog.component.html',
-  styleUrls: ['./games-create-edit-dialog.component.css'],
+  styleUrls: ['./games-create-edit-dialog.component.scss'],
 })
 export class GamesCreateEditDialogComponent implements OnInit {
   form: FormGroup;

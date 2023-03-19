@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using YOLO.Models;
 
 namespace YOLO.Controllers
 {
@@ -7,16 +8,14 @@ namespace YOLO.Controllers
     public class GamesController : Controller
     {
 
-        //We inject the DBContext into the controller...
-        private YoloGamesDbContext _context;
+         private YoloGamesDbContext _context;
 
         public GamesController(YoloGamesDbContext context)
         {
             _context = context;
         }
 
-        //...and can access it in our actions.
-        [HttpGet]
+         [HttpGet]
         public IActionResult Index()
         {
             var games = _context.YoloGame.ToList();

@@ -8,6 +8,9 @@
       "schematics": {
         "@schematics/angular:application": {
           "strict": true
+        },
+        "@schematics/angular:component": {
+          "style": "scss"
         }
       },
       "root": "",
@@ -29,10 +32,13 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
-                 "node_modules/material-design-icons/iconfont/material-icons.css"
-             ],
+              "node_modules/material-design-icons/iconfont/material-icons.css"
+            ],
             "scripts": [],
-            "allowedCommonJsDependencies":["CommonJS","material-moment-adapter"]
+            "allowedCommonJsDependencies": [
+              "CommonJS",
+              "material-moment-adapter"
+            ]
           },
           "configurations": {
             "production": {
@@ -127,12 +133,29 @@
               "vendorChunk": false
             }
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "defaultProject": "YOLO",
+  "schematics": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
+  },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

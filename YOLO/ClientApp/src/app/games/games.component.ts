@@ -1,21 +1,17 @@
 import {
   AfterViewInit,
   Component,
+  EventEmitter,
   Inject,
   OnDestroy,
   OnInit,
+  Output,
   QueryList,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-export class Game {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  creationDate: string;
-}
+
 import { MatTableDataSource } from '@angular/material/table';
 import { GamesService } from '../services/games.service';
 import { Subscription } from 'rxjs';
@@ -25,6 +21,7 @@ import { GamesCreateEditDialogComponent } from '../shared/games-create-edit-dial
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { NotificationService } from '../services/notification.service';
+import { Game } from '../models/game.model';
 
 @Component({
   selector: 'app-games',
@@ -32,7 +29,7 @@ import { NotificationService } from '../services/notification.service';
   styleUrls: ['./games.component.scss'],
 })
 export class GamesComponent implements OnInit, OnDestroy {
-  public isLoading = false;
+  @Output() public isLoading = new EventEmitter<boolean>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -56,6 +53,16 @@ export class GamesComponent implements OnInit, OnDestroy {
     this.localSubscription.unsubscribe();
   }
 
+  ngOnInit(): void {
+    this.filteredData.paginator = this.paginator;
+
+    this.localSubscription.add(
+      this.gameService.getGames().subscribe((results: Game[]) => {
+        this.drawDataTable(results);
+      })
+    );
+  }
+
   applyFilterToNameCategoryDescription(event: any) {
     console.log(this);
     const filterValue = (event.target as HTMLInputElement).value
@@ -69,22 +76,12 @@ export class GamesComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnInit(): void {
-    this.filteredData.paginator = this.paginator;
-
-    this.localSubscription.add(
-      this.gameService.getGames().subscribe((results: Game[]) => {
-        this.drawDataTable(results);
-      })
-    );
-  }
-
   drawDataTable(results: Game[]) {
     this.gamesList = results;
     this.filteredData = new MatTableDataSource(results);
     this.filteredData.paginator = this.paginator;
     this.filteredData.sort = this.sort;
-    this.isLoading = false;
+    this.isLoading.emit(false);
   }
   dateRangeChange(
     dateRangeStart: HTMLInputElement,
@@ -92,12 +89,12 @@ export class GamesComponent implements OnInit, OnDestroy {
   ) {
     if (dateRangeStart.value.length !== 0 && dateRangeEnd.value.length !== 0)
       this.filteredData.data = this.filteredData.data.filter((e) => {
-        var compareDate = moment(
+        const compareDate = moment(
           moment(e.creationDate).format('DD/MM/YYYY'),
           'DD/MM/YYYY'
         );
-        var startDate = moment(moment(dateRangeStart.value), 'DD/MM/YYYY');
-        var endDate = moment(moment(dateRangeEnd.value), 'DD/MM/YYYY');
+        const startDate = moment(moment(dateRangeStart.value), 'DD/MM/YYYY');
+        const endDate = moment(moment(dateRangeEnd.value), 'DD/MM/YYYY');
         console.log(compareDate.isBetween(startDate, endDate));
 
         return compareDate.isBetween(startDate, endDate);
@@ -117,25 +114,39 @@ export class GamesComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((data) => {
       if (data.clicked === 'submit') {
-        this.isLoading = true;
+        this.isLoading.emit(true);
         this.localSubscription.add(
-          this.gameService.editGames(data.form).subscribe((results) => {
-            this.notificationService.success('Game edited successfully');
+          this.gameService.editGames(data.form).subscribe(
+            (results) => {
+              this.notificationService.success('Game edited successfully');
 
-            this.drawDataTable(results);
-          })
+              this.drawDataTable(results);
+            },
+            () => {
+              this.notificationService.error('Game edit failed');
+
+              this.isLoading.emit(false);
+            }
+          )
         );
       }
     });
   }
 
   deleteGame(id: string) {
-    this.isLoading = true;
-    this.gameService.deleteGames(id).subscribe((results) => {
-      this.notificationService.success('Game deleted successfully');
+    this.isLoading.emit(true);
+    this.gameService.deleteGames(id).subscribe(
+      (results) => {
+        this.notificationService.success('Game deleted successfully');
 
-      this.drawDataTable(results);
-    });
+        this.drawDataTable(results);
+      },
+      () => {
+        this.notificationService.error('Game delete failed');
+
+        this.isLoading.emit(false);
+      }
+    );
   }
 
   addNewGame() {
@@ -147,12 +158,19 @@ export class GamesComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((data) => {
       if (data.clicked === 'submit') {
-        this.isLoading = true;
+        this.isLoading.emit(true);
         this.localSubscription.add(
-          this.gameService.addGames(data.form).subscribe((results) => {
-            this.notificationService.success('Game added successfully');
-            this.drawDataTable(results);
-          })
+          this.gameService.addGames(data.form).subscribe(
+            (results) => {
+              this.notificationService.success('Game added successfully');
+              this.drawDataTable(results);
+            },
+            () => {
+              this.notificationService.error('Game add failed');
+
+              this.isLoading.emit(false);
+            }
+          )
         );
       }
     });

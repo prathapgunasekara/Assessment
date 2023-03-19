@@ -6,11 +6,16 @@ import { Component } from '@angular/core';
 })
 export class DashboardComponent {
   breakpoint: number;
+  isLoading = false;
   ngOnInit() {
     this.breakpoint = window.innerWidth <= 400 ? 1 : 2;
   }
 
   onResize(event: any) {
     this.breakpoint = event.target.innerWidth <= 400 ? 1 : 2;
+  }
+
+  onLoading(event: boolean) {
+    this.isLoading = event;
   }
 }

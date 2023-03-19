@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using YOLO.Models;
 
 namespace YOLO
 {
@@ -22,8 +23,8 @@ namespace YOLO
                         Name = "Candy Land",
                         Description = "Candy Land version 1",
                         Category = "Arcade",
-                        CreationDate = new DateTime(2015, 06, 04, 04 ,13,34)
-                    },    
+                        CreationDate = new DateTime(2015, 06, 04, 04, 13, 34)
+                    },
 
                     new YoloGame
                     {
@@ -51,8 +52,38 @@ namespace YOLO
                     }
 
 
-                    ); ;
+                    );
 
+                context.Customers.AddRange(
+                  new Customer
+                  {
+                      Id = Guid.NewGuid(),
+                      Name = "Mark anthony",
+                      Email = "mark@abc.com",
+                      Address = "cross street"
+                  },
+                   new Customer
+                   {
+                       Id = Guid.NewGuid(),
+                       Name = "john martin",
+                       Email = "john@abc.com",
+                       Address = "Brigde ave"
+                   },
+                    new Customer
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "harry potter",
+                        Email = "potter@abc.com",
+                        Address = "foster lane"
+                    },
+                     new Customer
+                     {
+                         Id = Guid.NewGuid(),
+                         Name = "anil  kumar",
+                         Email = "anil@abc.com",
+                         Address = "lake round"
+                     }
+                      );
                 context.SaveChanges();
             }
         }

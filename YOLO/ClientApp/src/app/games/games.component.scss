@@ -1,5 +1,5 @@
 body {
-  font-family: "Covered By Your Grace", cursive;
+  font-family: 'Covered By Your Grace', cursive;
   line-height: 1.25;
 }
 
@@ -11,20 +11,27 @@ body {
   font-weight: 600 !important;
 }
 
-.action-header {
-  display: flex;
-  justify-content: space-between;
-
-  #clear-filter {
-    margin-top: 12px;
-    margin-left: 12px;
-  }
-
-  #add-new {
-    margin-top: 12px;
-  }
-}
+//mobile queries
 @media screen and (max-width: 960px) {
+  .filters-bar {
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  .container-table {
+    overflow: auto;
+  }
+
+  .component-element {
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      margin-top: 12px;
+      margin-right: 12px;
+    }
+  }
+
   .mat-table {
     border: 0;
     vertical-align: middle;
@@ -61,31 +68,66 @@ body {
   .mat-table .mat-cell:first-child {
     margin-top: 4%;
   }
-}
 
-.filters-bar {
-  display: flex !important;
+  .action-header {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    flex-direction: column;
 
-  #dateRangeDivision {
-    margin-left: 25px;
+    #clear-filter {
+      margin-top: 12px;
+      width: 35%;
+    }
+
+    #add-new {
+      margin-top: 12px;
+    }
+  }
+  mat-form-field {
+    width: 100%;
+  }
+
+  .pagination-bar {
+    margin-top: 12px;
+    width: max-content;
   }
 }
 
-@media screen and (max-width: 960px) {
+//desktop queries
+@media screen and (min-width: 960px) {
   .filters-bar {
     display: flex !important;
-    width: 100%;
 
-    #textFieldFilter {
-    }
     #dateRangeDivision {
       margin-left: 25px;
     }
+  }
 
-    #dateRange {
-      label[for="dateRange"]:before {
-        content: "Post this question to my friends on ";
-      }
+  .action-header {
+    display: flex;
+    justify-content: space-between;
+
+    #clear-filter {
+      margin-top: 12px;
+      margin-left: 12px;
     }
+
+    #add-new {
+      margin-top: 12px;
+    }
+  }
+
+  .component-element {
+    display: flex;
+
+    h3 {
+      margin-top: 12px;
+      margin-right: 12px;
+    }
+  }
+
+  .pagination-bar {
+    margin-top: 12px;
   }
 }

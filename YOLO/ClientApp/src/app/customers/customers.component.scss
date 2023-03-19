@@ -1,0 +1,96 @@
+.mat-header-cell {
+  font-weight: 600 !important;
+}
+
+.mdc-data-table__header-cell {
+  font-weight: 600 !important;
+}
+@media screen and (max-width: 960px) {
+  .filters-bar {
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  .container-table {
+    overflow: auto;
+  }
+
+  .component-element {
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      margin-top: 12px;
+      margin-right: 12px;
+    }
+  }
+  .action-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    #clear-filter {
+      margin-top: 12px;
+    }
+
+    #add-new {
+      margin-top: 12px;
+    }
+  }
+  mat-form-field {
+    width: 100%;
+  }
+
+  .action-header {
+    display: flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    flex-direction: column;
+
+    #clear-filter {
+      margin-top: 12px;
+      width: 35%;
+    }
+  }
+
+  .pagination-bar {
+    margin-top: 12px;
+    width: max-content;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  .action-header {
+    display: flex;
+    justify-content: space-between;
+
+    #clear-filter {
+      margin-top: 12px;
+      margin-left: 12px;
+    }
+
+    #add-new {
+      margin-top: 12px;
+    }
+  }
+  .pagination-bar {
+    margin-top: 12px;
+  }
+}
+
+.filters-bar {
+  display: flex !important;
+
+  #dateRangeDivision {
+    margin-left: 25px;
+  }
+}
+
+.component-element {
+  display: flex;
+
+  h3 {
+    margin-top: 12px;
+    margin-right: 12px;
+  }
+}

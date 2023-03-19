@@ -1,0 +1,29 @@
+<div class="form-container">
+    <h2 mat-dialog-title>{{data.isEdit?'Edit Customer' : 'Add new Customer'}}</h2>
+    <mat-dialog-content>
+        <form [formGroup]="form">
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Enter name" formControlName="name" />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Enter email" formControlName="email" />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Address</mat-label>
+                <input matInput placeholder="Enter address" formControlName="address" />
+            </mat-form-field>
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-raised-button (click)="dialogRef.close(false)" color="primary">
+            Close
+        </button>
+        <button mat-raised-button color="primary" (click)="submit(form.value)">
+            Submit
+        </button>
+    </mat-dialog-actions>
+</div>
