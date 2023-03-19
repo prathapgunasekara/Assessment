@@ -1,27 +1,40 @@
-# YOLO
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.2.
+# Yolo games
 
-## Development server
+This will guid with steps to run the application on your local setup
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Run Locally
 
-## Build
+Clone the project
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+  git clone https://github.com/prathapgunasekara/yolo.git
+```
 
-## Running unit tests
+## Note : You must have nodeJS ,Visual Studio and angular-cli installed into your computer.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+2. First install ```node_modules``` inside ClientApp folder.
 
-## Running end-to-end tests
+3. Goto 
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+  cd YOLO/ClientApp/
+```
+4. Install dependencies
 
-## Further help
+```bash
+  npm install
+```
+5. Now go to the project root directory.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+6. Open below file
+
+```
+  YOLO.sln
+ ```
+
+6. To start the server, start the application from Visual Studio by clicking little green play icon, available on the toolbar
+
+ 
